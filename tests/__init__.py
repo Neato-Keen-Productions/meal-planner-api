@@ -31,10 +31,6 @@ class FunctionalTestCase (BaseTestCase):
             db.session.add(object)
         db.session.commit()
 
-    # Added assertions for readability
-    def assertEmpty(self, collection):
-        self.assertFalse(collection)
-
     # All global response
     def check_response_success_and_headers(self, response):
         self.check_response_code(response, 200)
@@ -68,14 +64,13 @@ class FunctionalTestCase (BaseTestCase):
         self.assertNotIn(key, response.data)
 
     # Convenience checks
-    # def check_request_failed_due_to_missing_authorization(self, response):
-    #     self.check_response_code(response, 401)
-    #     self.check_response_headers_content_type(response)
-    #     self.check_request_contains_only_auth_error(response)
-
     def check_request_contains_only_auth_error(self, response):
         # TODO Define error codes
-        self.check_request_contains_only_error(00000, response)
+        self.check_request_contains_only_error(101, response)
+
+    def check_request_contains_only_missing_parameter_error(self, response):
+        # TODO Define error codes
+        self.check_request_contains_only_error(100, response)
 
     def check_request_contains_only_error(self, code, response):
         self.check_data_not_in_response(response)
