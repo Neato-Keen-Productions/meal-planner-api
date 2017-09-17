@@ -161,8 +161,6 @@ install_coverage_tool ()
     if [[ $COVERAGE != *$COVERAGE_SOURCE* ]]; then
         printf "\nInstalling coverage package...\n"
         pip install coverage
-    else
-        printf "\nCoverage is installed!"
     fi
 }
 

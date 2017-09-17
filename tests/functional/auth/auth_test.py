@@ -10,7 +10,7 @@ AUTH_TOKEN_KEY = "auth_token"
 class LogInTestCase(FunctionalTestCase):
 
     def test_login_success(self):
-        pass
+
         # Setup User
         user = UserMock.mock_user()
         self.save_objects(user)
@@ -21,17 +21,26 @@ class LogInTestCase(FunctionalTestCase):
 
         # Check response
         self.check_response_success_and_headers(response)
+        self.check_errors_not_in_response(response)
         data_dict = self.unpack_extant_response_data(response)
         auth_token = data_dict[AUTH_TOKEN_KEY]
         self.assertIsNotNone(auth_token)
 
-        # Check no errors
-        self.check_errors_not_in_response(response)
+    def test_login_invalid_password_failure(self):
 
-    def test_login_fail(self):
-        pass
+        # Setup User
+        user = UserMock.mock_user()
+        self.save_objects(user)
+
         # Make the request
         data = {USERNAME_KEY: TEST_USERNAME, PASSWORD_KEY: "incorrect_password"}
+        self.make_and_check_bad_login_attempt_with_data(data)
+
+    def test_login_invalid_username_failure(self):
+        data = {USERNAME_KEY: "incorrect_username", PASSWORD_KEY: TEST_PASSWORD}
+        self.make_and_check_bad_login_attempt_with_data(data)
+
+    def make_and_check_bad_login_attempt_with_data(self, data):
         response = self.client.post('/login', data=json.dumps(data))
 
         # Check the response

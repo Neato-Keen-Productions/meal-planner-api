@@ -1,4 +1,8 @@
 from flask import request, Blueprint, g, jsonify
+from app.dao.user_dao import UserDAO
+from app.models.authorization import Authorization
+from app.models.user import User
+from app.models import db
 import logging
 
 auth_blueprint = Blueprint('mod_auth', __name__)
@@ -7,14 +11,18 @@ auth_blueprint = Blueprint('mod_auth', __name__)
 @auth_blueprint.route('/login',  methods=['POST'])
 def login():
     g.request_params = request.get_json(force=True)
-    username = g.request_params["username"]
-    password = g.request_params["password"]
-    logging.debug(username)
-    logging.debug(password)
+    supplied_username = g.request_params["username"]
+    supplied_password = g.request_params["password"]
 
-    # Add the User to the return
-    g.response = {"response": "GET /login success"}
+    user = UserDAO.get_user_from_username(supplied_username)
 
-    # Return a friendly JSON greeting.
+    if user is not None and user.check_hashed_password(supplied_password):
+        auth = Authorization(user)
+        db.session.add(auth)
+        db.session.commit()
+        g.response = {"data": {"auth_token": auth.token}}
+    else:
+        g.response = {"errors": [{"code": 00000, "message": "Auth Failed"}]}
+
     return jsonify(**g.response)
 
