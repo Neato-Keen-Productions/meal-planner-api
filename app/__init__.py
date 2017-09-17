@@ -1,6 +1,6 @@
 
 from flask import Flask
-from app.auth.login import auth_blueprint
+from app.controllers.auth.login import auth_blueprint
 
 
 # Define the WSGI application object and configurations
