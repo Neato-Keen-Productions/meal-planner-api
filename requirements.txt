@@ -8,3 +8,5 @@
 # Note: Configure PyCharm to include lib path in interpreter here: http://stackoverflow.com/a/24206781
 
 Flask==0.11
+Flask-SQLAlchemy==2.1
+Flask-Testing==0.6.1
