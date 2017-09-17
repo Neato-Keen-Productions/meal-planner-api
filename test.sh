@@ -2,7 +2,7 @@
 
 ### Costants
 
-MYSQL_TEST_DB_NAME="********"
+MYSQL_TEST_DB_NAME="meal_planner_test"
 MYSQL_TEST_USER="root"
 MYSQL_TEST_PASSWORD=""
 UNIT_TEST_FLAG="U"
@@ -181,11 +181,11 @@ setup ()
         install_coverage_tool
     fi
 
-#    if [[ $ENABLED_TESTS == *"$FUNCTIONAL_TEST_FLAG"* ]] ||
-#    [[ $ENABLED_TESTS  == *"$INTEGRATION_TEST_FLAG"* ]] ; then
-#        start_mysql_server
-#        create_test_db
-#    fi
+    if [[ $ENABLED_TESTS == *"$FUNCTIONAL_TEST_FLAG"* ]] ||
+    [[ $ENABLED_TESTS  == *"$INTEGRATION_TEST_FLAG"* ]] ; then
+        start_mysql_server
+        create_test_db
+    fi
 }
 
 # Test
@@ -309,10 +309,10 @@ create_space_between_tests ()
 
 teardown ()
 {
-#    if [[ $ENABLED_TESTS  == *"$FUNCTIONAL_TEST_FLAG"* ]] ||
-#    [[ $ENABLED_TESTS  == *"$INTEGRATION_TEST_FLAG"* ]] ; then
-#        delete_test_db
-#    fi
+    if [[ $ENABLED_TESTS  == *"$FUNCTIONAL_TEST_FLAG"* ]] ||
+    [[ $ENABLED_TESTS  == *"$INTEGRATION_TEST_FLAG"* ]] ; then
+        delete_test_db
+    fi
     create_space_between_tests
 }
 
