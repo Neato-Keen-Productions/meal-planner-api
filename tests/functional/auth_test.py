@@ -1,11 +1,8 @@
 import json
-from tests import FunctionalTestCase
+
+from tests.functional import FunctionalTestCase
+from tests.functional.constant_keys import USERNAME_KEY, PASSWORD_KEY, AUTH_TOKEN_KEY
 from tests.mocks.user_mock import mock_user, TEST_USERNAME, TEST_PASSWORD
-
-
-USERNAME_KEY = "username"
-PASSWORD_KEY = "password"
-AUTH_TOKEN_KEY = "auth_token"
 
 
 class LogInTestCase(FunctionalTestCase):

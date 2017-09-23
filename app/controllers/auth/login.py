@@ -1,5 +1,5 @@
 from flask import request, Blueprint, g, jsonify
-from app.dao.user_dao import UserDAO
+from app.dao.user_dao import get_user_from_username
 from app.models.authorization import Authorization
 from app.models import db
 from app.models.error import Error
@@ -16,7 +16,7 @@ def login():
     supplied_password = get_required_key_from_params(PASSWORD_KEY, g.request_params)
 
     if supplied_username is not None and supplied_password is not None:
-        user = UserDAO.get_user_from_username(supplied_username)
+        user = get_user_from_username(supplied_username)
 
         if user is not None and user.check_hashed_password(supplied_password):
             auth = Authorization(user)
