@@ -13,7 +13,7 @@ MIN_PASSWORD_LENGTH = 6
 MAX_USERNAME_LEGNTH = 32
 MIN_USERNAME_LENGTH = 3
 LONG_PASSWORD = "LoremipsumdolorsitametconsecteturadipiscingelitPhasellusfeugiataliqueturnaeuconvallisNuncutpurussollicitudinmollisnibhnoninterdummagnaDonecvestibulumrhoncusnullasedlaoreetmassafeugiatvelNullamloremvelitdignissimsedsemneclobortisauctornisiNullahendreritsemno"
-
+LONG_USERNAME = "LoremipsumdolorsitametconsecteturadipiscingelitPhasellusfeugi"
 
 class UserCreateTestCase(FunctionalTestCase):
     """This class is used to test all inputs and outputs of the POST /user endpoint"""
@@ -45,6 +45,10 @@ class UserCreateTestCase(FunctionalTestCase):
     def test_user_create_username_contains_spaces_failures(self):
         request_params = {USERNAME_KEY: "contains spaces", PASSWORD_KEY: TEST_PASSWORD}
         self.make_and_check_user_create_attempt_with_error(request_params, 904)
+
+    def test_user_create_username_too_long_failure(self):
+        request_params = {USERNAME_KEY: LONG_USERNAME, PASSWORD_KEY: TEST_PASSWORD}
+        self.make_and_check_user_create_attempt_with_error(request_params, 905)
 
     def make_and_check_user_create_attempt_with_error(self, request_params, app_error_code):
         response = self.client.post('/user', data=json.dumps(request_params))

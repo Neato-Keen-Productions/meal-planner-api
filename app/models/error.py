@@ -1,5 +1,4 @@
-
-ERRORS_KEY = "errors"
+from app.constants import MAX_USERNAME_LEGNTH, MAX_PASSWORD_LENGTH, MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH, ERRORS_KEY
 
 
 class Error:
@@ -39,3 +38,39 @@ class Error:
         return Error(101,
                      "Invalid username or password.",
                      "Please verify you have an account and check your username and password before trying again.")
+
+    @staticmethod
+    def password_too_long():
+        return Error(903,
+                     "Password too long.",
+                     "Please make sure that password is less than " + str(MAX_PASSWORD_LENGTH) +" characters long.")
+
+    @staticmethod
+    def password_too_short():
+        return Error(902,
+                     "Password is too short.",
+                     "Please enter a password that is at least "+ str(MIN_PASSWORD_LENGTH) + " characters long.")
+
+    @staticmethod
+    def username_is_taken():
+        return Error(900,
+                     "Username is taken.",
+                     "Please choose another username.")
+
+    @staticmethod
+    def username_contains_spaces():
+        return Error(904,
+                     "Username is contains spaces.",
+                     "Please remove spaces from username and try again.")
+
+    @staticmethod
+    def username_too_long():
+        return Error(905,
+                     "Username too long.",
+                     "Please enter a username that is less than " + str(MAX_USERNAME_LEGNTH) + " in length.")
+
+    @staticmethod
+    def username_too_short():
+        return Error(901,
+                     "Username is too short.",
+                     "Please enter a username that is more than " + str(MIN_USERNAME_LENGTH) + " in length.")

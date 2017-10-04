@@ -1,14 +1,13 @@
-from flask import request, Blueprint, g, jsonify
+from flask import Blueprint, g, jsonify
+from app.constants import USERNAME_KEY, PASSWORD_KEY
+from app.controllers import get_required_key_from_params
 from app.dao.user_dao import get_user_from_username
-from app.models.authorization import Authorization
 from app.models import db
+from app.models.authorization import Authorization
 from app.models.error import Error
 
 auth_blueprint = Blueprint('mod_auth', __name__)
 
-
-USERNAME_KEY = "username"
-PASSWORD_KEY = "password"
 
 @auth_blueprint.route('/login',  methods=['POST'])
 def login():
@@ -29,11 +28,3 @@ def login():
     return jsonify(**g.response)
 
 
-def get_required_key_from_params(key, params):
-    value = None
-    if key in params:
-        value = params[key]
-    else:
-        Error.add_to(g.response, Error.missing_required_param(key))
-
-    return value
