@@ -13,7 +13,7 @@ user_blueprint = Blueprint('mod_user', __name__)
 def create():
     supplied_username = get_required_key_from_params(USERNAME_KEY, g.request_params)
     supplied_password = get_required_key_from_params(PASSWORD_KEY, g.request_params)
-    # validate the data
+
     # check username is between min and max length and contains no spaces
     if len(supplied_username) < MIN_USERNAME_LENGTH:
         Error.add_to(g.response, Error.username_too_short())
@@ -24,23 +24,23 @@ def create():
     if " " in supplied_username:
         Error.add_to(g.response, Error.username_contains_spaces())
 
-    # check username is not taken
-    if get_user_from_username(supplied_username) is not None:
-        Error.add_to(g.response, Error.username_is_taken())
-        return jsonify(**g.response), 409
     # check password is between min and max length
-
     if len(supplied_password) < MIN_PASSWORD_LENGTH:
         Error.add_to(g.response, Error.password_too_short())
 
     if len(supplied_password) > MAX_PASSWORD_LENGTH:
         Error.add_to(g.response, Error.password_too_long())
-    # create user in db and save
-    if ERRORS_KEY not in g.response:
-        user = User(supplied_username, supplied_password)
-        db.session.add(user)
-        db.session.commit()
-    # return success
-        return Response(status=201, mimetype='application/json')
-    return jsonify(**g.response), 422
 
+    if ERRORS_KEY in g.response:
+        return jsonify(**g.response), 422
+
+    # check username is not taken
+    if get_user_from_username(supplied_username) is not None:
+        Error.add_to(g.response, Error.username_is_taken())
+        return jsonify(**g.response), 409
+
+    # create user in db and save
+    user = User(supplied_username, supplied_password)
+    db.session.add(user)
+    db.session.commit()
+    return Response(status=201, mimetype='application/json')
