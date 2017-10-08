@@ -1,11 +1,8 @@
 import json
-from tests import FunctionalTestCase
+
+from tests.functional import FunctionalTestCase
+from tests.functional.constant_keys import USERNAME_KEY, PASSWORD_KEY, AUTH_TOKEN_KEY
 from tests.mocks.user_mock import mock_user, TEST_USERNAME, TEST_PASSWORD
-
-
-USERNAME_KEY = "username"
-PASSWORD_KEY = "password"
-AUTH_TOKEN_KEY = "auth_token"
 
 
 class LogInTestCase(FunctionalTestCase):
@@ -21,7 +18,7 @@ class LogInTestCase(FunctionalTestCase):
         response = self.client.post('/login', data=json.dumps(data))
 
         # Check response
-        self.check_response_success_and_headers(response)
+        self.check_response_code_and_headers(response, 200)
         self.check_errors_not_in_response(response)
         data_dict = self.unpack_extant_response_data(response)
         auth_token = data_dict[AUTH_TOKEN_KEY]
@@ -48,7 +45,7 @@ class LogInTestCase(FunctionalTestCase):
         # Check the response
         self.check_response_code(response, 200)
         self.check_response_headers_content_type(response)
-        self.check_request_contains_only_auth_error(response)
+        self.check_response_contains_only_auth_error(response)
 
     # Missing Login Parameter Tests
     def test_login_missing_username_failure(self):
@@ -65,4 +62,4 @@ class LogInTestCase(FunctionalTestCase):
         # Check the response
         self.check_response_code(response, 200)
         self.check_response_headers_content_type(response)
-        self.check_request_contains_only_missing_parameter_error(response)
+        self.check_response_contains_only_missing_parameter_error(response)

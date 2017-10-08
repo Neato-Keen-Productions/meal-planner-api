@@ -2,6 +2,7 @@
 from flask import Flask, g, request
 from app.models import db
 from app.controllers.auth.login import auth_blueprint
+from app.controllers.user.create_user import user_blueprint
 
 
 # Define the WSGI application object and configurations
@@ -21,3 +22,5 @@ def before_request():
 
 
 app.register_blueprint(auth_blueprint)
+app.register_blueprint(user_blueprint)
+
