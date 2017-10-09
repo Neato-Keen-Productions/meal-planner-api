@@ -15,6 +15,7 @@ MIN_USERNAME_LENGTH = 3
 LONG_PASSWORD = "LoremipsumdolorsitametconsecteturadipiscingelitPhasellusfeugiataliqueturnaeuconvallisNuncutpurussollicitudinmollisnibhnoninterdummagnaDonecvestibulumrhoncusnullasedlaoreetmassafeugiatvelNullamloremvelitdignissimsedsemneclobortisauctornisiNullahendreritsemno"
 LONG_USERNAME = "LoremipsumdolorsitametconsecteturadipiscingelitPhasellusfeugi"
 
+
 class UserCreateTestCase(FunctionalTestCase):
     """This class is used to test all inputs and outputs of the POST /user endpoint"""
 
