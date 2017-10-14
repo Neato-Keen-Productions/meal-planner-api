@@ -11,21 +11,22 @@ from app.controllers.auth.login import auth_blueprint
 from app.controllers.user.create_user import user_blueprint
 
 
-def create_app():
+def create_app(config):
     # Define the WSGI application object and configurations
-    app = Flask(__name__)
-    app.config.from_object('config.config')
+    new_app = Flask(__name__)
+    new_app.config.from_object(config)
 
     # Define the database object which is imported by modules and controllers
     # (See http://stackoverflow.com/a/9695045/604003 for explanation)
-    db.init_app(app)
-    db.app = app
+    db.init_app(new_app)
+    db.app = new_app
     db.create_all()
 
-    return app
+    return new_app
 
 # Create an app and its endpoints
-app = create_app()
+app = create_app('config.config')
+
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(user_blueprint)
 

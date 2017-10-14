@@ -2,9 +2,6 @@
 
 ### Costants
 
-MYSQL_TEST_DB_NAME="meal_planner_test"
-MYSQL_TEST_USER="root"
-MYSQL_TEST_PASSWORD=""
 UNIT_TEST_FLAG="U"
 FUNCTIONAL_TEST_FLAG="F"
 INTEGRATION_TEST_FLAG="I"
@@ -113,27 +110,6 @@ process_args ()
     done
 }
 
-# Info Requests
-
-request_db_password ()
-{
-    printf "Enter test db password:\n"
-    read -s MYSQL_TEST_PASSWORD
-    MYSQL_TEST_PASSWORD="-p$MYSQL_TEST_PASSWORD"
-}
-
-request_db_name()
-{
-    read -p "Enter test db name: [$MYSQL_TEST_DB_NAME]" MYSQL_TEST_DB_NAME
-    MYSQL_TEST_DB_NAME=${MYSQL_TEST_DB_NAME:-$MYSQL_TEST_DB_NAME_DEF}
-}
-
-request_db_user ()
-{
-    read -p "Enter test db user: [$MYSQL_TEST_USER]" MYSQL_TEST_USER
-    MYSQL_TEST_USER=${MYSQL_TEST_USER:-$MYSQL_TEST_USER_DEF}
-}
-
 # Setup
 
 set_default_test_suites_if_not_specified (){
@@ -144,46 +120,9 @@ set_default_test_suites_if_not_specified (){
     fi
 }
 
-start_mysql_server ()
-{
-    LIST=$(mysql.server status)
-    SOURCE="SUCCESS!"
-    if echo "$LIST" | grep -vq "$SOURCE"; then
-        echo "MySQL not running. Starting now...";
-        mysql.server start;
-    fi
-}
-
-install_coverage_tool ()
-{
-    COVERAGE=$(pip list --format=columns)
-    COVERAGE_SOURCE="coverage"
-    if [[ $COVERAGE != *$COVERAGE_SOURCE* ]]; then
-        printf "\nInstalling coverage package...\n"
-        pip install coverage
-    fi
-}
-
-create_test_db ()
-{
-    echo "Creating test db..."
-    mysql -u $MYSQL_TEST_USER $MYSQL_TEST_PASSWORD -e "CREATE DATABASE $MYSQL_TEST_DB_NAME"
-}
-
 setup ()
 {
-
     set_default_test_suites_if_not_specified
-
-    if "$COVERAGE_REPORT_ENABLED"; then
-        install_coverage_tool
-    fi
-
-    if [[ $ENABLED_TESTS == *"$FUNCTIONAL_TEST_FLAG"* ]] ||
-    [[ $ENABLED_TESTS  == *"$INTEGRATION_TEST_FLAG"* ]] ; then
-        start_mysql_server
-        create_test_db
-    fi
 }
 
 # Test
@@ -294,11 +233,6 @@ test_and_report ()
 
 # Teardown
 
-delete_test_db ()
-{
-    echo "Deleting test db..."
-    mysql -u $MYSQL_TEST_USER $MYSQL_TEST_PASSWORD -e "DROP DATABASE $MYSQL_TEST_DB_NAME"
-}
 
 create_space_between_tests ()
 {
@@ -307,10 +241,6 @@ create_space_between_tests ()
 
 teardown ()
 {
-    if [[ $ENABLED_TESTS  == *"$FUNCTIONAL_TEST_FLAG"* ]] ||
-    [[ $ENABLED_TESTS  == *"$INTEGRATION_TEST_FLAG"* ]] ; then
-        delete_test_db
-    fi
     create_space_between_tests
 }
 
