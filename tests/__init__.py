@@ -12,7 +12,6 @@ class BaseTestCase (TestCase):
     # if the create_app is not implemented NotImplementedError will be raised
     def create_app(self):
         app.config.from_object('config.test_config')
-        # app = create_app('config.test_config')
         return app
 
 
