@@ -1,5 +1,5 @@
 from flask import Blueprint, g, Response, jsonify
-from app.constants import USERNAME_KEY, PASSWORD_KEY, MAX_PASSWORD_LENGTH, MAX_USERNAME_LEGNTH, MIN_PASSWORD_LENGTH,MIN_USERNAME_LENGTH, ERRORS_KEY
+from app.constants import USERNAME_KEY, PASSWORD_KEY, MAX_PASSWORD_LENGTH, MAX_USERNAME_LEGNTH, MIN_PASSWORD_LENGTH, MIN_USERNAME_LENGTH, ERRORS_KEY
 from app.controllers import get_required_key_from_params
 from app.models.error import Error
 from app.models.user import User
