@@ -6,7 +6,7 @@ from tests.functional.constants import HTTP_CODE_201_CREATED, HTTP_CODE_409_CONF
 
 INGREDIENT_KEY = "ingredient"
 MIN_INGREDIENT_NAME_LENGTH = 2
-MAx_INGREDIENT_NAME_LENGTH = 255
+MAX_INGREDIENT_NAME_LENGTH = 255
 LONG_INGREDIENT_NAME = "LoremipsumdolorsitametconsecteturadipiscingelitPhasellusfeugiataliqueturnaeuconvallisNuncutpurussollicitudinmollisnibhnoninterdummagnaDonecvestibulumrhoncusnullasedlaoreetmassafeugiatvelNullamloremvelitdignissimsedsemneclobortisauctornisiNullahendreritsemno"
 
 
