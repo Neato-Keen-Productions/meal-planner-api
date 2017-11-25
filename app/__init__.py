@@ -1,5 +1,6 @@
 
 from flask import Flask, g, request
+from flask_cors import CORS
 
 # DB Models
 from app.models import db
@@ -15,6 +16,7 @@ def create_app(config):
     # Define the WSGI application object and configurations
     new_app = Flask(__name__)
     new_app.config.from_object(config)
+    CORS(new_app)
 
     # Define the database object which is imported by modules and controllers
     # (See http://stackoverflow.com/a/9695045/604003 for explanation)
@@ -36,4 +38,11 @@ app.register_blueprint(user_blueprint)
 def before_request():
     # Initialize a response
     g.response = {}
-    g.request_params = request.get_json(force=True)
+
+    # Get request params
+    if request.method == "GET":
+        g.request_params = request.args
+    elif request.method in ["POST", "PUT"]:
+        g.request_params = request.get_json(force=True)
+    else:
+        g.request_params = {}
