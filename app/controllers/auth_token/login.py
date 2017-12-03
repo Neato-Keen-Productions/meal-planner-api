@@ -9,7 +9,7 @@ from app.models.error import Error
 auth_blueprint = Blueprint('mod_auth', __name__)
 
 
-@auth_blueprint.route('/login',  methods=['POST'])
+@auth_blueprint.route('/token',  methods=['POST'])
 def login():
     supplied_username = get_required_key_from_params(USERNAME_KEY, g.request_params)
     supplied_password = get_required_key_from_params(PASSWORD_KEY, g.request_params)

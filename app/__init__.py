@@ -8,7 +8,7 @@ from app.models.user import User
 from app.models.authorization import Authorization
 
 # Blueprints
-from app.controllers.auth.login import auth_blueprint
+from app.controllers.auth_token.login import auth_blueprint
 from app.controllers.user.create_user import user_blueprint
 
 
@@ -17,20 +17,25 @@ def create_app(config):
     new_app = Flask(__name__)
     new_app.config.from_object(config)
     CORS(new_app)
+    return new_app
 
+
+def init_db(new_app):
     # Define the database object which is imported by modules and controllers
     # (See http://stackoverflow.com/a/9695045/604003 for explanation)
     db.init_app(new_app)
     db.app = new_app
     db.create_all()
 
-    return new_app
+
+def register_blueprints(new_app):
+    new_app.register_blueprint(auth_blueprint)
+    new_app.register_blueprint(user_blueprint)
 
 # Create an app and its endpoints
 app = create_app('config.config')
-
-app.register_blueprint(auth_blueprint)
-app.register_blueprint(user_blueprint)
+init_db(app)
+register_blueprints(app)
 
 
 # Initialize response objects for controller requests
