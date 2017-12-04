@@ -1,6 +1,7 @@
 
-from flask import Flask, g, request
+from flask import Flask, g, request, make_response
 from flask_cors import CORS
+import json
 
 # DB Models
 from app.models import db
@@ -42,7 +43,9 @@ register_blueprints(app)
 @app.before_request
 def before_request():
     # Initialize a response
-    g.response = {}
+    g.response = make_response()
+    g.response.response = {}
+    g.response.headers['content-type'] = 'application/json'
 
     # Get request params
     if request.method == "GET":
@@ -51,3 +54,9 @@ def before_request():
         g.request_params = request.get_json(force=True)
     else:
         g.request_params = {}
+
+@app.after_request
+def after_request(response):
+    if response.response is not None:
+        response.data = json.dumps(response.response)
+    return response

@@ -1,4 +1,4 @@
-from flask import Blueprint, g, jsonify
+from flask import Blueprint, g
 from app.constants import USERNAME_KEY, PASSWORD_KEY
 from app.controllers import get_required_key_from_params
 from app.dao.user_dao import get_user_from_username
@@ -21,10 +21,11 @@ def login():
             auth = Authorization(user)
             db.session.add(auth)
             db.session.commit()
-            g.response = {"data": {"auth_token": auth.token}}
+            g.response.response = {"data": {"auth_token": auth.token}}
+            g.response.set_cookie("auth_token", auth.token)
         else:
-            Error.add_to(g.response, Error.auth_invalid())
+            Error.add_to(g.response.response, Error.auth_invalid())
 
-    return jsonify(**g.response)
+    return g.response
 
 
