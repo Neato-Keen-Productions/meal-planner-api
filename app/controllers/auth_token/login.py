@@ -23,7 +23,8 @@ def login():
             db.session.add(auth)
             db.session.commit()
             time = datetime.datetime.now() + datetime.timedelta(days=30)
-            g.response.set_cookie("auth_token", auth.token, expires=time, domain="127.0.0.1")
+            #TODO: Enable secure when using HTTPS on non-dev machine
+            g.response.set_cookie("auth_token", auth.token, expires=time, domain="127.0.0.1", httponly=True, secure=False)
             g.response.response = {"data": {"auth_token": auth.token}}
         else:
             Error.add_to(g.response.response, Error.auth_invalid())

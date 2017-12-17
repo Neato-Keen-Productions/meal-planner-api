@@ -26,6 +26,16 @@ class LogInTestCase(FunctionalTestCase):
         auth_token = data_dict[AUTH_TOKEN_KEY]
         self.assertIsNotNone(auth_token)
 
+        # Check Cookie
+        self.assertIn('Set-Cookie', response.headers.keys())
+        cookie_value = response.headers['Set-Cookie']
+        print (str(cookie_value))
+        self.assertIn('auth_token', cookie_value)
+        self.assertIn('Domain', cookie_value)
+        self.assertIn('Expires', cookie_value)
+        self.assertIn('HttpOnly', cookie_value)
+        self.assertIn('Path', cookie_value)
+
     # Invalid Login Parameter Tests
     def test_login_invalid_password_failure(self):
 
