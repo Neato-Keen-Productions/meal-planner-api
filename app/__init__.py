@@ -17,7 +17,7 @@ def create_app(config):
     # Define the WSGI application object and configurations
     new_app = Flask(__name__)
     new_app.config.from_object(config)
-    CORS(new_app)
+    CORS(new_app, allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Credentials"], supports_credentials=True)
     return new_app
 
 

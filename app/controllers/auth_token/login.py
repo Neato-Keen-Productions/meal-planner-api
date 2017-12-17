@@ -1,4 +1,5 @@
 from flask import Blueprint, g
+import datetime
 from app.constants import USERNAME_KEY, PASSWORD_KEY
 from app.controllers import get_required_key_from_params
 from app.dao.user_dao import get_user_from_username
@@ -21,8 +22,9 @@ def login():
             auth = Authorization(user)
             db.session.add(auth)
             db.session.commit()
+            time = datetime.datetime.now() + datetime.timedelta(days=30)
+            g.response.set_cookie("auth_token", auth.token, expires=time, domain="127.0.0.1")
             g.response.response = {"data": {"auth_token": auth.token}}
-            g.response.set_cookie("auth_token", auth.token)
         else:
             Error.add_to(g.response.response, Error.auth_invalid())
 
