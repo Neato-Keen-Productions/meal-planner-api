@@ -112,7 +112,8 @@ process_args ()
 
 # Setup
 
-set_default_test_suites_if_not_specified (){
+set_default_test_suites_if_not_specified ()
+{
     if [[ ${#ENABLED_TESTS} == "0" ]]; then
         echo "Enabling default test suites..."
         enable_test $UNIT_TEST_FLAG
@@ -122,7 +123,13 @@ set_default_test_suites_if_not_specified (){
 
 setup ()
 {
+    clear_scrollback_buffer
     set_default_test_suites_if_not_specified
+}
+
+clear_scrollback_buffer ()
+{
+    clear && printf '\e[3J'
 }
 
 # Test
