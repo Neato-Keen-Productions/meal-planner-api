@@ -16,20 +16,20 @@ def create():
 
     # check username is between min and max length and contains no spaces
     if len(supplied_username) < MIN_USERNAME_LENGTH:
-        Error.add_to(g.response.response, Error.username_too_short())
+        Error.add_to_response_dict(g.response.response, Error.username_too_short())
 
     if len(supplied_username) > MAX_USERNAME_LEGNTH:
-        Error.add_to(g.response.response, Error.username_too_long())
+        Error.add_to_response_dict(g.response.response, Error.username_too_long())
 
     if " " in supplied_username:
-        Error.add_to(g.response.response, Error.username_contains_spaces())
+        Error.add_to_response_dict(g.response.response, Error.username_contains_spaces())
 
     # check password is between min and max length
     if len(supplied_password) < MIN_PASSWORD_LENGTH:
-        Error.add_to(g.response.response, Error.password_too_short())
+        Error.add_to_response_dict(g.response.response, Error.password_too_short())
 
     if len(supplied_password) > MAX_PASSWORD_LENGTH:
-        Error.add_to(g.response.response, Error.password_too_long())
+        Error.add_to_response_dict(g.response.response, Error.password_too_long())
 
     if ERRORS_KEY in g.response.response:
         g.response.status_code = 422
@@ -37,7 +37,7 @@ def create():
 
     # check username is not taken
     if get_user_from_username(supplied_username) is not None:
-        Error.add_to(g.response.response, Error.username_is_taken())
+        Error.add_to_response_dict(g.response.response, Error.username_is_taken())
         g.response.status_code = 409
         return g.response
 

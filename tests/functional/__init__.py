@@ -52,10 +52,6 @@ class FunctionalTestCase (BaseTestCase):
         self.assertNotIn(key, response.data)
 
     # Convenience checks
-    def check_response_contains_only_auth_error(self, response):
-        # TODO Define error codes
-        self.check_response_contains_only_error(101, response)
-
     def check_response_contains_only_missing_parameter_error(self, response):
         # TODO Define error codes
         self.check_response_contains_only_error(100, response)

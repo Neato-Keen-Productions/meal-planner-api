@@ -13,11 +13,11 @@ class Error:
             "code": self.code,
             "title": self.title,
             "message": self.message
-        }
+}
 
     # Readability helper abstracting reusable method chaining
     @staticmethod
-    def add_to(response, error):
+    def add_to_response_dict(response, error):
         if ERRORS_KEY not in response:
             response[ERRORS_KEY] = []
         response[ERRORS_KEY].append(error.to_dict())
@@ -34,22 +34,18 @@ class Error:
         return error
 
     @staticmethod
-    def auth_invalid():
-        return Error(101,
-                     "Invalid username or password.",
-                     "Please verify you have an account and check your username and password before trying again.")
-
-    @staticmethod
     def password_too_long():
         return Error(903,
                      "Password too long.",
-                     "Please make sure that password is less than " + str(MAX_PASSWORD_LENGTH) +" characters long.")
+                     "Please make sure that password is less than " +
+                     str(MAX_PASSWORD_LENGTH) + " characters long.")
 
     @staticmethod
     def password_too_short():
         return Error(902,
                      "Password is too short.",
-                     "Please enter a password that is at least "+ str(MIN_PASSWORD_LENGTH) + " characters long.")
+                     "Please enter a password that is at least " +
+                     str(MIN_PASSWORD_LENGTH) + " characters long.")
 
     @staticmethod
     def username_is_taken():

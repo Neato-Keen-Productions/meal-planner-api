@@ -8,6 +8,6 @@ def get_required_key_from_params(key, params):
     if key in params:
         value = params[key]
     else:
-        Error.add_to(g.response.response, Error.missing_required_param(key))
+        Error.add_to_response_dict(g.response.response, Error.missing_required_param(key))
 
     return value

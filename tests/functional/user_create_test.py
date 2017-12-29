@@ -1,12 +1,10 @@
 import json
-from tests.functional import FunctionalTestCase
-from tests.mocks.user_mock import TEST_PASSWORD, TEST_USERNAME, mock_user
-from tests.functional.constant_keys import USERNAME_KEY, PASSWORD_KEY
+
+from app.constants.status_codes import HTTP_CODE_201_CREATED, HTTP_CODE_409_CONFLICT, HTTP_CODE_422_UNPROCESSABLE_ENTITY
 from app.dao.user_dao import get_user_from_username
-from app.models.user import User
-from tests.functional.constants import *
-
-
+from tests.functional import FunctionalTestCase
+from tests.functional.constant_keys import USERNAME_KEY, PASSWORD_KEY
+from tests.mocks.user_mock import TEST_PASSWORD, TEST_USERNAME, mock_user
 
 MAX_PASSWORD_LENGTH = 256
 MIN_PASSWORD_LENGTH = 6
@@ -65,8 +63,3 @@ class UserCreateTestCase(FunctionalTestCase):
         response = self.client.post('/user', data=json.dumps(request_params))
         self.check_response_code_and_headers(response, HTTP_CODE_409_CONFLICT)
         self.check_response_contains_only_error(900, response)
-
-
-
-
-

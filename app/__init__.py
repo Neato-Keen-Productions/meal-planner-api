@@ -6,10 +6,9 @@ import json
 # DB Models
 from app.models import db
 from app.models.user import User
-from app.models.authorization import Authorization
 
 # Blueprints
-from app.controllers.auth_token.login import auth_blueprint
+from app.controllers.auth_token.create_auth_token import auth_blueprint
 from app.controllers.user.create_user import user_blueprint
 
 

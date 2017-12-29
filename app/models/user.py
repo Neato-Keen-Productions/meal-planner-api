@@ -1,10 +1,8 @@
 import hashlib
 import random
+import uuid
 
 from app.models import db, BaseModel
-
-# Imports required for one-to-many inverse relations
-from app.models.authorization import Authorization
 
 
 class User (BaseModel):
@@ -14,9 +12,10 @@ class User (BaseModel):
     username = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     salt = db.Column(db.String(255))
-    authorizations = db.relationship(Authorization.__tablename__, back_populates="user")
+    is_blacklisted = db.Column(db.Boolean, default=False)
 
     def __init__(self, username, password):
+        super(User, self).__init__()
         self.username = username
         self.salt = '%020x' % random.randrange(16**30)
         self.password = self.__hash_password__(password)
