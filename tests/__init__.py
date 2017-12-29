@@ -1,6 +1,6 @@
 from flask_testing import TestCase
 
-from app import create_app, app
+from app import app
 
 DATA_KEY = "data"
 ERRORS_KEY = "errors"
@@ -13,5 +13,3 @@ class BaseTestCase (TestCase):
     def create_app(self):
         app.config.from_object('config.test_config')
         return app
-
-
