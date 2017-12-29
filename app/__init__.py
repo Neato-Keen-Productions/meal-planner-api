@@ -1,7 +1,10 @@
 
-from flask import Flask, g, request, make_response
+from flask import Flask, g, request, make_response, url_for
 from flask_cors import CORS
 import json
+from app.models.auth_token import AuthToken
+from app.controllers.auth_token.validate_auth_token_service import valid_user_from_auth_token
+from app.models.error import Error
 
 # DB Models
 from app.models import db
@@ -29,8 +32,9 @@ def init_db(new_app):
 
 
 def register_blueprints(new_app):
-    new_app.register_blueprint(auth_blueprint)
-    new_app.register_blueprint(user_blueprint)
+    new_app.register_blueprint(auth_blueprint, url_prefix='/auth_token')
+    new_app.register_blueprint(user_blueprint, url_prefix='/user')
+
 
 # Create an app and its endpoints
 app = create_app('config.config')
@@ -38,15 +42,34 @@ init_db(app)
 register_blueprints(app)
 
 
-# Initialize response objects for controller requests
 @app.before_request
 def before_request():
-    # Initialize a response
+    prepare_response()
+    set_user_from_cookies(request.cookies)
+    prepare_request_params()
+
+
+def prepare_response():
     g.response = make_response()
     g.response.response = {}
     g.response.headers['content-type'] = 'application/json'
 
-    # Get request params
+
+def set_user_from_cookies(cookies):
+    if "auth_token" in cookies:
+        find_user_from_encoded_token(cookies["auth_token"])
+    else:
+        g.user = None
+
+
+def find_user_from_encoded_token(encoded_auth_token_value):
+    auth_token = AuthToken(encoded_value=encoded_auth_token_value)
+    g.user, error = valid_user_from_auth_token(auth_token)
+    if error:
+        Error.add_to_response_dict(g.response.response, error)
+
+
+def prepare_request_params():
     if request.method == "GET":
         g.request_params = request.args
     elif request.method in ["POST", "PUT"]:
@@ -54,8 +77,11 @@ def before_request():
     else:
         g.request_params = {}
 
+
 @app.after_request
 def after_request(response):
-    if response.response is not None:
+    if response.response is not None and type(response.response) is dict:
         response.data = json.dumps(response.response)
     return response
+
+

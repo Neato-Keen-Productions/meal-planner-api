@@ -28,7 +28,8 @@ class FunctionalTestCase (BaseTestCase):
         self.assertEquals(response.headers['Content-Type'], 'application/json')
 
     def check_response_code(self, response, expected_code):
-        self.assertEquals(response.status_code, expected_code, "response code not " + str(expected_code))
+        self.assertEquals(response.status_code, expected_code, "Found response code (" + str(response.status_code) +
+                          ") is not expected code (" + str(expected_code) + ")")
 
     # Unpack extant response values
     def unpack_extant_response_data(self, response):
@@ -67,5 +68,6 @@ class FunctionalTestCase (BaseTestCase):
         for error in error_arr:
             code = error['code']
             self.assertIsNotNone(code)
-            self.assertEquals(code, error_code)
-            self.assertIsNotNone(error['message'])
+            self.assertEquals(code, error_code, " Found error code (" + str(code) +
+                              ") is not expected code (" + str(error_code) + ")")
+            self.assertIsNotNone(error['message'], "Error message should not be empty")

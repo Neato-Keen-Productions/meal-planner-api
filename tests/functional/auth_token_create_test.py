@@ -16,11 +16,11 @@ class AuthTokenCreateTestCase(FunctionalTestCase):
         user = mock_user()
         self.save_objects(user)
 
-        # Request is made once in the init
+        # Make Request
         data = {USERNAME_KEY: TEST_USERNAME, PASSWORD_KEY: TEST_PASSWORD}
         response = self.client.post(endpoint, data=json.dumps(data))
 
-        # Check response
+        # Check Response
         self.check_response_code_and_headers(response, HTTP_CODE_200_OK)
         self.check_errors_not_in_response(response)
         data_dict = self.unpack_extant_response_data(response)

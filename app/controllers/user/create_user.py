@@ -9,7 +9,7 @@ from app.dao.user_dao import get_user_from_username
 user_blueprint = Blueprint('mod_user', __name__)
 
 
-@user_blueprint.route('/user', methods=['POST'])
+@user_blueprint.route('', methods=['POST'])
 def create():
     supplied_username = get_required_key_from_params(USERNAME_KEY, g.request_params)
     supplied_password = get_required_key_from_params(PASSWORD_KEY, g.request_params)
