@@ -1,4 +1,4 @@
-from app.constants import MAX_USERNAME_LEGNTH, MAX_PASSWORD_LENGTH, MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH, ERRORS_KEY
+from app.constants import MAX_USERNAME_LEGNTH, MAX_PASSWORD_LENGTH, MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH, ERRORS_KEY, MIN_INGREDIENT_NAME_LENGTH, MAX_INGREDIENT_NAME_LENGTH
 
 
 class Error:
@@ -67,10 +67,28 @@ class Error:
     def username_too_long():
         return Error(905,
                      "Username too long.",
-                     "Please enter a username that is less than " + str(MAX_USERNAME_LEGNTH) + " in length.")
+                     "Please enter a username less than " + str(MAX_USERNAME_LEGNTH) + " in length.")
 
     @staticmethod
     def username_too_short():
         return Error(901,
                      "Username is too short.",
-                     "Please enter a username that is more than " + str(MIN_USERNAME_LENGTH) + " in length.")
+                     "Please enter a username more than " + str(MIN_USERNAME_LENGTH) + " in length.")
+
+    @staticmethod
+    def ingredient_name_too_short():
+        return Error(801,
+                     "Ingredient name is too short.",
+                     "Please enter an ingredient name more than " + str(MIN_INGREDIENT_NAME_LENGTH) + " in length.")
+
+    @staticmethod
+    def ingredient_name_too_long():
+        return Error(802,
+                     "Ingredient name is too long.",
+                     "Please enter an ingredient name less than " + str(MAX_INGREDIENT_NAME_LENGTH) + " in length.")
+
+    @staticmethod
+    def ingredient_name_taken():
+        return Error(800,
+                     "Ingredient name is taken.",
+                     "Please enter a different name for your ingredient. Creating a new ingredient may not be required.")

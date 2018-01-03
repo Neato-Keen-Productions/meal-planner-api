@@ -10,6 +10,7 @@ from app.models.authorization import Authorization
 # Blueprints
 from app.controllers.auth.login import auth_blueprint
 from app.controllers.user.create_user import user_blueprint
+from app.controllers.ingredient.create_ingredient import ingredient_blueprint
 
 
 def create_app(config):
@@ -31,6 +32,7 @@ app = create_app('config.config')
 
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(user_blueprint)
+app.register_blueprint(ingredient_blueprint)
 
 
 # Initialize response objects for controller requests
